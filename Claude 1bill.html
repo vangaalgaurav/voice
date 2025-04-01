@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Agent Chart Busters</title>
+    <style>
+        :root {
+            --primary: #e61e4d;
+            --secondary: #121212;
+            --accent: #2b87ff;
+            --light-gray: #f7f7f7;
+            --mid-gray: #e5e5e5;
+            --dark-gray: #767676;
+            --text-dark: #222222;
+            --text-light: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .sign-in-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sign-in-button::before {
+            content: "👤";
+            font-size: 1.1rem;
+        }
+        
+        .sign-in-button:hover {
+            background-color: #c01741;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(to right, var(--primary), #a30f22);
+            color: var(--text-light);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin: 0 auto;
+            max-width: 600px;
+            gap: 10px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .search-bar button, .whatsapp-button {
+            padding: 0.8rem 1.5rem;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-bar button {
+            background-color: var(--secondary);
+        }
+        
+        .whatsapp-button {
+            background-color: #25D366;
+        }
+        
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+        }
+        
+        .whatsapp-button::before {
+            content: "📱";
+            font-size: 1.2rem;
+        }
+        
+        .section-title {
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin: 2rem 0 1.5rem;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .view-all {
+            font-size: 1rem;
+            text-decoration: none;
+            color: var(--primary);
+            text-transform: none;
+        }
+        
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .category {
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            min-width: 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .chart-header {
+            display: grid;
+            grid-template-columns: 80px 60px 1fr 150px 120px;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--mid-gray);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+        
+        .chart-list {
+            margin-bottom: 3rem;
+        }
+        
+        .chart-item {
+            display: grid;
+            grid-template-columns: 80px 60px 1fr 150px 120px;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--mid-gray);
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .chart-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .chart-position {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .position-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .up {
+            color: green;
+        }
+        
+        .down {
+            color: red;
+        }
+        
+        .new {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .agent-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            background-color: var(--mid-gray);
+            margin-right: 1rem;
+        }
+        
+        .agent-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .agent-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .agent-details p {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        .agent-rating {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stars {
+            color: gold;
+            margin-bottom: 0.2rem;
+        }
+        
+        .review-count {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+        
+        .agent-controls {
+            display: flex;
+        }
+        
+        .play-button, .stop-button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .play-button {
+            background-color: var(--primary);
+        }
+        
+        .play-button:hover {
+            background-color: #c01741;
+        }
+        
+        .stop-button:hover {
+            background-color: #000;
+        }
+        
+        .featured-section {
+            background-color: var(--light-gray);
+            padding: 2rem 0;
+            margin: 3rem 0;
+        }
+        
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .featured-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .featured-image {
+            height: 160px;
+            background-color: var(--mid-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .featured-content {
+            padding: 1.5rem;
+        }
+        
+        .featured-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .featured-rank {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .featured-description {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .featured-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+        }
+        
+        .featured-category {
+            background-color: var(--light-gray);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(to right, var(--secondary), #444);
+            color: white;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            background-color: #c01741;
+        }
+        
+        .new-releases {
+            margin: 3rem 0;
+        }
+        
+        .release-date {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--mid-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .whatsapp-link {
+            display: flex;
+            align-items: center;
+            color: #25D366 !important;
+            font-weight: bold;
+        }
+        
+        .whatsapp-link::before {
+            content: "📱";
+            margin-right: 5px;
+        }
+        
+        .whatsapp-link:hover {
+            color: #128C7E !important;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+        
+        .sign-in-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .google-sign-in {
+            background-color: white;
+            border: 1px solid var(--mid-gray);
+            padding: 0.8rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .google-sign-in:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .google-sign-in img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--dark-gray);
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--mid-gray);
+        }
+        
+        .divider span {
+            padding: 0 1rem;
+        }
+        
+        .email-sign-in {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .email-sign-in input {
+            padding: 0.8rem;
+            border: 1px solid var(--mid-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .email-sign-in button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .email-sign-in button:hover {
+            background-color: #c01741;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .sign-up-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .sign-up-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-header, .chart-item {
+                grid-template-columns: 60px 1fr 120px;
+            }
+            
+            .position-change, .agent-rating {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Voice Agent <span>CHART BUSTERS</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Charts</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Submit</a></li>
+                    <li><a href="https://wa.me/1234567890" target="_blank" class="whatsapp-link">WhatsApp</a></li>
+                    <li><a href="#" class="sign-in-button">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>The Official Voice Agent Charts</h1>
+            <p>Discover the hottest voice agents, launch your own, and watch it climb the charts. The ultimate destination for voice agent rankings and discovery.</p>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search for voice agents...">
+                <button>Search</button>
+                <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button">WhatsApp</a>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+        <h2 class="section-title">Browse Categories <a href="#" class="view-all">View All</a></h2>
+        
+        <div class="categories">
+            <div class="category">
+                <div class="category-icon">💰</div>
+                <h3>Financial</h3>
+                <p>Banking & Investment</p>
+            </div>
+            
+            <div class="category">
+                <div class="category-icon">🛒</div>
+                <h3>Sales & Marketing</h3>
+                <p>Lead generation & Sales</p>
+            </div>
+            
+            <div class="category">
+                <div class="category-icon">🏨</div>
+                <h3>Travel & Hospitality</h3>
+                <p>Hotel & Booking</p>
+            </div>
+            
+            <div class="category">
+                <div class="category-icon">🩺</div>
+                <h3>Healthcare</h3>
+                <p>Medical assistance</p>
+            </div>
+            
+            <div class="category">
+                <div class="category-icon">📚</div>
+                <h3>Education</h3>
+                <p>Learning & Tutoring</p>
+            </div>
+            
+            <div class="category">
+                <div class="category-icon">🤖</div>
+                <h3>Productivity</h3>
+                <p>Task management</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Top 10 Voice Agents This Week <a href="#" class="view-all">View Full Chart</a></h2>
+        
+        <div class="chart-list">
+            <div class="chart-header">
+                <div>Position</div>
+                <div>Change</div>
+                <div>Agent</div>
+                <div>Rating</div>
+                <div>Controls</div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">1</div>
+                <div class="position-change new">NEW</div>
+                <div class="agent-info">
+                    <div class="agent-image">🤖</div>
+                    <div class="agent-details">
+                        <h3>FinanceBuddy Pro</h3>
+                        <p>Financial Advisory Inc.</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★★</div>
+                    <div class="review-count">482 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">2</div>
+                <div class="position-change up">↑ 1</div>
+                <div class="agent-info">
+                    <div class="agent-image">🏨</div>
+                    <div class="agent-details">
+                        <h3>TravelEase</h3>
+                        <p>Global Bookings Ltd</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">351 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">3</div>
+                <div class="position-change down">↓ 2</div>
+                <div class="agent-info">
+                    <div class="agent-image">🛒</div>
+                    <div class="agent-details">
+                        <h3>SalesGuru</h3>
+                        <p>Lead Conversion Systems</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">298 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">4</div>
+                <div class="position-change new">NEW</div>
+                <div class="agent-info">
+                    <div class="agent-image">🩺</div>
+                    <div class="agent-details">
+                        <h3>MediConnect</h3>
+                        <p>HealthTech Solutions</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★★</div>
+                    <div class="review-count">187 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">5</div>
+                <div class="position-change down">↓ 1</div>
+                <div class="agent-info">
+                    <div class="agent-image">💼</div>
+                    <div class="agent-details">
+                        <h3>TaskWizard</h3>
+                        <p>Productivity Tools Inc.</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">243 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">6</div>
+                <div class="position-change up">↑ 3</div>
+                <div class="agent-info">
+                    <div class="agent-image">📚</div>
+                    <div class="agent-details">
+                        <h3>EduTutor</h3>
+                        <p>Learning Innovations</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">178 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">7</div>
+                <div class="position-change down">↓ 2</div>
+                <div class="agent-info">
+                    <div class="agent-image">👨‍💼</div>
+                    <div class="agent-details">
+                        <h3>CustomerCare AI</h3>
+                        <p>ServiceFirst Technologies</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">156 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">8</div>
+                <div class="position-change">-</div>
+                <div class="agent-info">
+                    <div class="agent-image">🛍️</div>
+                    <div class="agent-details">
+                        <h3>ShopAssist</h3>
+                        <p>Retail Solutions Group</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★☆☆</div>
+                    <div class="review-count">135 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">9</div>
+                <div class="position-change down">↓ 4</div>
+                <div class="agent-info">
+                    <div class="agent-image">💰</div>
+                    <div class="agent-details">
+                        <h3>InvestorHelper</h3>
+                        <p>FinTech Innovations</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="review-count">124 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="chart-position">10</div>
+                <div class="position-change new">NEW</div>
+                <div class="agent-info">
+                    <div class="agent-image">🤖</div>
+                    <div class="agent-details">
+                        <h3>VoiceConcierge</h3>
+                        <p>Luxury Services AI</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="stars">★★★★★</div>
+                    <div class="review-count">98 reviews</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                    <button class="stop-button">■</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">Featured Voice Agents</h2>
+            
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="featured-image">💰</div>
+                    <div class="featured-content">
+                        <div class="featured-title">
+                            <span>FinanceBuddy Pro</span>
+                            <span class="featured-rank">#1</span>
+                        </div>
+                        <p class="featured-description">A comprehensive financial assistant that helps with budgeting, investment recommendations, and financial planning.</p>
+                        <div class="featured-meta">
+                            <span class="featured-category">Financial</span>
+                            <span class="release-date">Released: Mar 28, 2025</span>
+                        </div>
+                        <div class="agent-controls">
+                            <button class="play-button">▶</button>
+                            <button class="stop-button">■</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-card">
+                    <div class="featured-image">🏨</div>
+                    <div class="featured-content">
+                        <div class="featured-title">
+                            <span>TravelEase</span>
+                            <span class="featured-rank">#2</span>
+                        </div>
+                        <p class="featured-description">Book hotels, flights, and discover travel destinations with personalized recommendations.</p>
+                        <div class="featured-meta">
+                            <span class="featured-category">Travel & Hospitality</span>
+                            <span class="release-date">Released: Mar 15, 2025</span>
+                        </div>
+                        <div class="agent-controls">
+                            <button class="play-button">▶</button>
+                            <button class="stop-button">■</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-card">
+                    <div class="featured-image">🛒</div>
+                    <div class="featured-content">
+                        <div class="featured-title">
+                            <span>SalesGuru</span>
+                            <span class="featured-rank">#3</span>
+                        </div>
+                        <p class="featured-description">Generate leads, qualify prospects, and nurture client relationships with this sales automation assistant.</p>
+                        <div class="featured-meta">
+                            <span class="featured-category">Sales & Marketing</span>
+                            <span class="release-date">Released: Feb 20, 2025</span>
+                        </div>
+                        <div class="agent-controls">
+                            <button class="play-button">▶</button>
+                            <button class="stop-button">■</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+        <h2 class="section-title">Upcoming Releases <a href="#" class="view-all">View All</a></h2>
+        
+        <div class="chart-list new-releases">
+            <div class="chart-header">
+                <div>Release</div>
+                <div>Date</div>
+                <div>Agent</div>
+                <div>Category</div>
+                <div>Pre-Launch</div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="release-date">Apr 10</div>
+                <div class="position-change">2025</div>
+                <div class="agent-info">
+                    <div class="agent-image">🤖</div>
+                    <div class="agent-details">
+                        <h3>HealthCoach AI</h3>
+                        <p>Wellness Technologies</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="featured-category">Healthcare</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="release-date">Apr 15</div>
+                <div class="position-change">2025</div>
+                <div class="agent-info">
+                    <div class="agent-image">💼</div>
+                    <div class="agent-details">
+                        <h3>MeetingMaster</h3>
+                        <p>Productive Solutions Inc.</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="featured-category">Productivity</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                </div>
+            </div>
+            
+            <div class="chart-item">
+                <div class="release-date">Apr 22</div>
+                <div class="position-change">2025</div>
+                <div class="agent-info">
+                    <div class="agent-image">📚</div>
+                    <div class="agent-details">
+                        <h3>LanguageTutor Pro</h3>
+                        <p>Global Language Systems</p>
+                    </div>
+                </div>
+                <div class="agent-rating">
+                    <div class="featured-category">Education</div>
+                </div>
+                <div class="agent-controls">
+                    <button class="play-button">▶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Launch Your Voice Agent Today</h2>
+                <p>Join the ranks of the top voice agents and let users discover your innovative solution. Connect your API, set your launch date, and watch your agent climb the charts.</p>
+                <a href="#" class="cta-button">Get Started</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Developer Tools</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Status</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://wa.me/1234567890" target="_blank" class="whatsapp-link">WhatsApp Support</a></li>
+                        <li><a href="#">Business Hours: 9AM - 6PM</a></li>
+                        <li><a href="#">Response Time: Within 24 hours</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Voice Agent Chart Busters. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Sign In Modal -->
+    <div class="modal" id="signInModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Sign In</h2>
+            <div class="sign-in-options">
+                <button class="google-sign-in">
+                    <img src="https://www.google.com/favicon.ico" alt="Google">
+                    Continue with Google
+                </button>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <form class="email-sign-in">
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    <button type="submit">Sign In</button>
+                </form>
+                
+                <div class="sign-up-link">
+                    Don't have an account? <a href="#">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('signInModal');
+        const signInButton = document.querySelector('.sign-in-button');
+        const closeModal = document.querySelector('.close-modal');
+        
+        signInButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Google Sign In
+        document.querySelector('.google-sign-in').addEventListener('click', () => {
+            // Add your Google Sign In logic here
+            alert('Google Sign In functionality will be implemented here');
+        });
+        
+        // Email Sign In
+        document.querySelector('.email-sign-in').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add your email sign in logic here
+            alert('Email Sign In functionality will be implemented here');
+        });
+    </script>
+    <script src="claude.js"></script>
+</body>
+</html> 
